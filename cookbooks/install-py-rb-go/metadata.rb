@@ -23,3 +23,4 @@ license 'MIT'
 # a Supermarket.
 #
 # source_url 'https://github.com/<insert_org_here>/install-py-rb-go'
+depends 'asdf'
