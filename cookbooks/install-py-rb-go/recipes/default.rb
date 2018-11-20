@@ -38,7 +38,7 @@ install_user = "root"
 #     EOH
 #   not_if "which asdf"
 # end
-asdf_user_install "#{install_user}"
+asdf_user_install install_user
 
 # file "#{fish_path}/config.fish" do
 #   content "source #{asdf_path}/asdf.fish"
@@ -59,7 +59,7 @@ asdf_user_install "#{install_user}"
 #   not_if 'asdf plugin-list | grep python'
 # end
 asdf_plugin 'python' do
-  user "#{install_user}"
+  user install_user
 end
 
 python_version = "3.6.7"
@@ -72,6 +72,6 @@ python_version = "3.6.7"
 #     EOH
 # end
 asdf_package 'python' do
-  user "#{install_user}"
-  version "#{python_version}"
+  user install_user
+  version python_version
 end
