@@ -1,0 +1,57 @@
+version: 2
+jobs:
+  info:
+    docker: # use the docker executor type; machine and macos executors are also supported
+      - image: chef/chefdk # the primary container, where your job's commands are run
+    steps:
+      - checkout # check out the code in the project directory
+  info-ubuntu:
+    docker: # use the docker executor type; machine and macos executors are also supported
+      - image: chef/chefdk # the primary container, where your job's commands are run
+    steps:
+      - checkout # check out the code in the project directory
+      - run: ohai
+  info-cent:
+    docker: # use the docker executor type; machine and macos executors are also supported
+      - image: jannikzed/chefdk-centos7
+    steps:
+      - checkout # check out the code in the project directory
+      - run: ohai
+  lint:
+    docker: # use the docker executor type; machine and macos executors are also supported
+      - image: chef/chefdk # the primary container, where your job's commands are run
+    steps:
+      - checkout # check out the code in the project directory
+      - run: foodcritic cookbooks/
+  test-ubuntu:
+    docker: # use the docker executor type; machine and macos executors are also supported
+      - image: chef/chefdk # the primary container, where your job's commands are run
+    steps:
+      - checkout # check out the code in the project directory
+      - run: chef-client --local-mode --override-runlist hello-chef
+      - run: inspec exec cookbooks/hello-chef/test/integration/default/default_test.rb
+  test-cent:
+    docker: # use the docker executor type; machine and macos executors are also supported
+      - image: jannikzed/chefdk-centos7 # the primary container, where your job's commands are run
+    steps:
+      - checkout # check out the code in the project directory
+      - run: chef-client --local-mode --override-runlist hello-chef
+      - run: inspec exec cookbooks/hello-chef/test/integration/default/default_test.rb
+workflows:
+  version: 2
+  chef-inspec:
+    jobs:
+      - info
+      - info-ubuntu:
+          requires:
+            - info
+      - info-cent:
+          requires:
+            - info
+      - lint
+      - test-ubuntu:
+          requires:
+            - lint
+      - test-cent:
+          requires:
+            - lint
