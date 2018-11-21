@@ -28,23 +28,21 @@ jobs:
       - image: chef/chefdk # the primary container, where your job's commands are run
     steps:
       - checkout # check out the code in the project directory
-      - run: cd cookbooks/install-py-rb-go
-      - run: berks install
-      - run: berks vendor
-      - run: chef-client --local-mode --override-runlist install-py-rb-go
-      # - run: inspec exec cookbooks/install-py-rb-go/test/integration/default/default_test.rb
-      - run: inspec exec test/integration/default/default_test.rb
+      - run: cd cookbooks/install-py-rb-go && berks install
+      - run: cd cookbooks/install-py-rb-go && berks vendor
+      - run: cd cookbooks/install-py-rb-go && chef-client --local-mode --override-runlist install-py-rb-go
+      - run: inspec exec cookbooks/install-py-rb-go/test/integration/default/default_test.rb
+      # - run: inspec exec test/integration/default/default_test.rb
   test-cent:
     docker: # use the docker executor type; machine and macos executors are also supported
       - image: jannikzed/chefdk-centos7 # the primary container, where your job's commands are run
     steps:
       - checkout # check out the code in the project directory
-      - run: cd cookbooks/install-py-rb-go
-      - run: berks install
-      - run: berks vendor
-      - run: chef-client --local-mode --override-runlist install-py-rb-go
-      # - run: inspec exec cookbooks/install-py-rb-go/test/integration/default/default_test.rb
-      - run: inspec exec test/integration/default/default_test.rb
+      - run: cd cookbooks/install-py-rb-go && berks install
+      - run: cd cookbooks/install-py-rb-go && berks vendor
+      - run: cd cookbooks/install-py-rb-go && chef-client --local-mode --override-runlist install-py-rb-go
+      - run: inspec exec cookbooks/install-py-rb-go/test/integration/default/default_test.rb
+      # - run: inspec exec test/integration/default/default_test.rb
 workflows:
   version: 2
   chef-inspec:
