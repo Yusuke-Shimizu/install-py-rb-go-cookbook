@@ -28,6 +28,7 @@ jobs:
       - image: chef/chefdk # the primary container, where your job's commands are run
     steps:
       - checkout # check out the code in the project directory
+      - run: berks install
       - run: chef-client --local-mode --override-runlist install-py-rb-go
       - run: inspec exec cookbooks/install-py-rb-go/test/integration/default/default_test.rb
   test-cent:
@@ -35,6 +36,7 @@ jobs:
       - image: jannikzed/chefdk-centos7 # the primary container, where your job's commands are run
     steps:
       - checkout # check out the code in the project directory
+      - run: berks install
       - run: chef-client --local-mode --override-runlist install-py-rb-go
       - run: inspec exec cookbooks/install-py-rb-go/test/integration/default/default_test.rb
 workflows:
